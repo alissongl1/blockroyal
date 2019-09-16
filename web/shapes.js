@@ -121,9 +121,6 @@ function CanvasState(canvas) {
       var l = shapes.length
       for (var i = l-1; i >= 0; i--) {
         if (shapes[i].contains(mx, my)) {
-          // console.log("Shape")
-          // console.log(shapes[i])
-          //Ler e gravar dados no Firebase: https://firebase.google.com/docs/database/web/read-and-write?hl=pt-br
           var quadrado = {}
           var keyQuadrado = shapes[i]["i"]
           console.log("valor da key ")
