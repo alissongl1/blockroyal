@@ -59,6 +59,7 @@ function CanvasState(canvas) {
   this.valid = false // when set to false, the canvas will redraw everything
   this.shapes = []  // the collection of things to be drawn
   this.dragging = false // Keep track of when we are dragging
+  this.draggingIdentity = "2342h4h23kll"
   // the current selected object. In the future we could turn this into an array for multiple selection
   this.selection = null
   this.dragoffx = 0 // See mousedown and mousemove events for explanation
@@ -74,12 +75,14 @@ function CanvasState(canvas) {
   
   //fixes a problem where double clicking causes text to get selected on the canvas
   canvas.addEventListener('selectstart', function(e) { 
+    console.log("selectStart")
     e.preventDefault() 
     return false }, 
   false)
 
   // Up, down, and move are for dragging
   canvas.addEventListener('mousedown', function(e) {
+    console.log("mouseDown")
     var mouse = myState.getMouse(e)
     var mx = mouse.x
     var my = mouse.y
@@ -93,6 +96,7 @@ function CanvasState(canvas) {
         myState.dragoffx = mx - mySel.x
         myState.dragoffy = my - mySel.y
         myState.dragging = true
+        myState.draggingIdentity = shapes[i]["i"]
         myState.selection = mySel
         myState.valid = false
         return
@@ -107,6 +111,7 @@ function CanvasState(canvas) {
   }, true)
 
   canvas.addEventListener('mousemove', function(e) {
+    console.log("mouseMove")
     if (myState.dragging){
       var mouse = myState.getMouse(e)
       // We don't want to drag the object by its top-left corner, we want to drag it
@@ -139,7 +144,9 @@ function CanvasState(canvas) {
   }, true)
 
   canvas.addEventListener('mouseup', function(e) {
+    console.log("mouseUp")
     myState.dragging = false
+    myState.draggingIdentity = ""
   }, true)
 
   // double click for making new shapes
@@ -255,15 +262,16 @@ function init() {
   firebase.database().ref('quadrados/').on('value', function (snapshot) {
       // console.log("Lista de quadrados recebidos do Firebase")
       // console.log(snapshot.val())
-
       snapshot.forEach(function(item) {
         var q = item.val()
         var showQuadrado = true
         for(var i = 0; i < quadrados.length; i++){
           if(q["i"] == quadrados[i]["i"]){
-            if(q["x"] == quadrados[i]["x"] && q["y"] == quadrados[i]["y"]){
+            if(q["x"] == quadrados[i]["x"] && q["y"] == quadrados[i]["y"]){ //não se movimentou
               showQuadrado = false
-            }else{
+            }else if(s.dragging && s.draggingIdentity == q["i"]){ // se movimentou mas no cliente
+              showQuadrado = false // apenas o mousemove que movimentará o quadrado no cliente
+            }else{ // se movimentou no servidor, logo deve se movimentar aqui
               s.removeShape(q)
               quadrados[i] = q
               showQuadrado = true
@@ -275,7 +283,6 @@ function init() {
           s.addShape(new Shape(q)) 
         }
       })
-
       // console.log("Array de quadrados criados no Javascript")
       // console.log(quadrados)
     }
