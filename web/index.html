@@ -1,65 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+    <head>
 
-    <!-- update the version number as needed -->
+    </head>
+    <body>
+        <h1>
+            CLIQUE DUAS VEZES PARA CRIAR QUADRADOS 
+        </h1>
+        <h2 style="color: blue">
+            OU MOVA UM QUADRADO PARA ALTERAR SUA POSIÇÃO
+        </h2>
+        <H3 style="color: red">
+            EM TODOS OS COMPUTADORES AO MESMO TEMPO
+        </H3>
+        <canvas id="canvas1" style="border: 1px solid black;" width="1000" height="600">
+            This text is displayed if your browser does not support HTML5 Canvas.
+        </canvas>
+    </body>
+
+    <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase.js"></script>
     <script defer src="/__/firebase/6.6.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/6.6.0/firebase-auth.js"></script>
     <script defer src="/__/firebase/6.6.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/6.6.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/6.6.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>   
+    <script defer src="/__/firebase/init.js"></script>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#config-web-app -->
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyAc77ywbeoG4mCFfmHJ8nCXoi1cPokD11g",
+        authDomain: "block-royal.firebaseapp.com",
+        databaseURL: "https://block-royal.firebaseio.com",
+        projectId: "block-royal",
+        storageBucket: "block-royal.appspot.com",
+        messagingSenderId: "415720598148",
+        appId: "1:415720598148:web:2911f7277b9a2e284830d1"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
     </script>
-  </body>
+
+    <script src="shapes.js"></script>
+
+    <script>
+        init();
+    </script>
+    
+
 </html>
