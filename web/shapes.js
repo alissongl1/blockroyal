@@ -74,12 +74,14 @@ function CanvasState(canvas) {
   
   //fixes a problem where double clicking causes text to get selected on the canvas
   canvas.addEventListener('selectstart', function(e) { 
+    console.log("selectStart")
     e.preventDefault() 
     return false }, 
   false)
 
   // Up, down, and move are for dragging
   canvas.addEventListener('mousedown', function(e) {
+    console.log("mouseDown")
     var mouse = myState.getMouse(e)
     var mx = mouse.x
     var my = mouse.y
@@ -107,6 +109,7 @@ function CanvasState(canvas) {
   }, true)
 
   canvas.addEventListener('mousemove', function(e) {
+    console.log("mouseMove")
     if (myState.dragging){
       var mouse = myState.getMouse(e)
       // We don't want to drag the object by its top-left corner, we want to drag it
@@ -139,6 +142,7 @@ function CanvasState(canvas) {
   }, true)
 
   canvas.addEventListener('mouseup', function(e) {
+    console.log("mouseUp")
     myState.dragging = false
   }, true)
 
@@ -255,27 +259,28 @@ function init() {
   firebase.database().ref('quadrados/').on('value', function (snapshot) {
       // console.log("Lista de quadrados recebidos do Firebase")
       // console.log(snapshot.val())
-
-      snapshot.forEach(function(item) {
-        var q = item.val()
-        var showQuadrado = true
-        for(var i = 0; i < quadrados.length; i++){
-          if(q["i"] == quadrados[i]["i"]){
-            if(q["x"] == quadrados[i]["x"] && q["y"] == quadrados[i]["y"]){
-              showQuadrado = false
-            }else{
-              s.removeShape(q)
-              quadrados[i] = q
-              showQuadrado = true
+      if(!s.dragging){
+        snapshot.forEach(function(item) {
+          var q = item.val()
+          var showQuadrado = true
+          
+            for(var i = 0; i < quadrados.length; i++){
+              if(q["i"] == quadrados[i]["i"]){
+                if(q["x"] == quadrados[i]["x"] && q["y"] == quadrados[i]["y"]){
+                  showQuadrado = false
+                }else{
+                  s.removeShape(q)
+                  quadrados[i] = q
+                  showQuadrado = true
+                }
+              }
             }
+          if(showQuadrado){
+            quadrados.push(q)
+            s.addShape(new Shape(q)) 
           }
-        }
-        if(showQuadrado){
-          quadrados.push(q)
-          s.addShape(new Shape(q)) 
-        }
-      })
-
+        })
+      }
       // console.log("Array de quadrados criados no Javascript")
       // console.log(quadrados)
     }
