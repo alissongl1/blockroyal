@@ -279,8 +279,8 @@ function init() {
           }
         }
         if(showQuadrado){
-          quadrados.push(q)
-          s.addShape(new Shape(q))  
+            quadrados.push(q)
+            s.addShape(new Shape(q))  
         }
       })
       // console.log("Array de quadrados criados no Javascript")
